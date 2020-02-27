@@ -17,6 +17,12 @@
   ],
   "author": "Shree Harsha S <harshas@vmware.com>",
   "license": "BSD-2-Clause",
+  "dependencies": {
+    "jsonwebtoken": "^8.5.1",
+    "request-promise": "^4.2.4",
+    "request": "^2.88.0",
+    "uuid": "^3.3.3"
+  },
   "devDependencies": {
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.0",

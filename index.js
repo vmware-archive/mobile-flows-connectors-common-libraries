@@ -6,13 +6,13 @@
 'use strict'
 
 const { getConnectorBaseUrl, handleXRequestId } = require('./lib/utility')
-const connectorAuth = require('./lib/connector-auth')
+const auth = require('./lib/auth')
 const { log, logReq } = require('./lib/log')
 
 module.exports = Object.freeze({
-    getConnectorBaseUrl: getConnectorBaseUrl,
-    handleXRequestId: handleXRequestId,
-    validateConnectorAuth: connectorAuth.validate,
-    log: log,
-    logReq: logReq
+  getConnectorBaseUrl,
+  handleXRequestId,
+  validateAuth: auth.validate,
+  log,
+  logReq
 })

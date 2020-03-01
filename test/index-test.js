@@ -110,29 +110,6 @@ describe('Mobile Flows connectors common tests', () => {
       expect(isNextCalled).to.eql(false)
     })
   })
-
-  describe('Log wrapper', () => {
-    it('should not fail case 1', async () => {
-      const mockRes = {
-        locals: {}
-      }
-
-      const name = 'shree harsha'
-      index.logReq(mockRes, 'My name is: %s', name)
-    })
-  })
-
-  describe('Log wrapper', () => {
-    it('should not fail case 2', async () => {
-      const mockRes = {
-        locals: {
-          xRequestId: 'req-123'
-        }
-      }
-
-      index.logReq(mockRes, 'Its good.')
-    })
-  })
 })
 
 const mockNext = () => {

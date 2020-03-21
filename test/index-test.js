@@ -41,7 +41,8 @@ describe('Mobile Flows connectors common tests', () => {
         locals: {}
       }
 
-      await index.validateAuth(mockMfPublicKeyUrl, mockReq, mockRes, mockNext)
+      const validatorFn = index.validateAuth(mockMfPublicKeyUrl)
+      await validatorFn(mockReq, mockRes, mockNext)
 
       expect(mockRes.locals.mfJwt.tenantId).to.eql('tenantId')
       expect(mockRes.locals.mfJwt.username).to.eql('shree')
@@ -76,7 +77,9 @@ describe('Mobile Flows connectors common tests', () => {
         }
       }
 
-      await index.validateAuth(mockMfPublicKeyUrl, mockReq, mockRes, mockNext)
+      const validatorFn = index.validateAuth(mockMfPublicKeyUrl)
+      await validatorFn(mockReq, mockRes, mockNext)
+
       expect(expResStatus).to.eql(401)
       expect(isNextCalled).to.eql(false)
     })
@@ -105,7 +108,9 @@ describe('Mobile Flows connectors common tests', () => {
         }
       }
 
-      await index.validateAuth(mockMfPublicKeyUrl, mockReq, mockRes, mockNext)
+      const validatorFn = index.validateAuth(mockMfPublicKeyUrl)
+      await validatorFn(mockReq, mockRes, mockNext)
+
       expect(expResStatus).to.eql(401)
       expect(isNextCalled).to.eql(false)
     })

@@ -2,8 +2,8 @@
 
 ## Overview
 The project is a suite of commonly used utility functions for anyone developing a Mobile Flows connector on Express Node.js. 
-Connector developers can use the functions and considerably reduce the overall development time. In addition to that, 
-it helps developers to maintain a similar pattern in the connector code and avoid making mistakes. 
+As a connector developer you can use the functions and considerably reduce the overall development time. In addition to that, 
+it helps to maintain a similar pattern in the connector code and avoid making mistakes. 
 
 It will be available in the public NPM registry soon.
 
@@ -16,8 +16,17 @@ please see the [Card Connectors Guide](https://github.com/vmware-samples/card-co
 This validates Authorization JWT from Mobile Flows. 
 Function takes public key URL of Mobile Flows server. Returns a function to be used as a middleware 
 for all protected APIs.
+
 If the validation fails, request is rejected as 401 with a message.
+
 If the validation succeeded, it adds some local variables at `res.locals.mfJwt`.
+```$xslt
+res.locals.mfJwt.tenantId = 'Mobile Flows tenant id'
+res.locals.mfJwt.username = 'Username'
+res.locals.mfJwt.email = 'User email id'
+res.locals.mfJwt.idmDomain = 'User IDM domain id'
+res.locals.mfJwt.decoded = 'All decoded params of the JWT'
+```
 
 Example
 ```$xslt
@@ -26,7 +35,7 @@ app.use(['/api/*'], mfCommons.validate('https://prod.hero.vmwservices.com/securi
 
 ### getConnectorBaseUrl(req)
 It takes Express request object and returns the connector's base URL. This is the URL to be used by anyone trying to 
-access the connector externally. Function respects x-forwarded headers for identifying the original host request by the caller.
+access the connector externally. For identifying the original host request by the caller this reads x-forwarded headers.
 
 Example
 ```$xslt
@@ -85,7 +94,7 @@ log('Sent samples for analytics.')
 
 ## mockMfServer
 This a dummy server to mimic some of the properties of the Mobile Flows server. It will be useful for unit testing purposes.
-Public key is available at `/public-key`
+Its public key is available at `/public-key`
 
 ### start(port)
 Call the method to start the dummy server to listen at the specified port on the localhost. You can have it running

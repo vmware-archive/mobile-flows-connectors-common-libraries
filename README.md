@@ -5,7 +5,10 @@ The project is a suite of commonly used utility functions for anyone developing 
 As a connector developer you can use the functions and considerably reduce the overall development time. In addition to that, 
 it helps to maintain a similar pattern in the connector code and avoid making mistakes. 
 
-It will be available in the public NPM registry soon.
+You can load this module wherever its required and use necessary functions. 
+```
+const mfCommons = require('connectors-common-node')
+```
 
 For a detailed, language-neutral, specification for how to develop connectors, 
 please see the [Card Connectors Guide](https://github.com/vmware-samples/card-connectors-guide).
@@ -29,85 +32,111 @@ res.locals.mfJwt.decoded = 'All decoded params of the JWT'
 ```
 
 Example
-```$xslt
-app.use(['/api/*'], mfCommons.validate('https://prod.hero.vmwservices.com/security/public-key'))
+```
+app.use(['/api/*'], mfCommons.validateAuth('https://prod.hero.vmwservices.com/security/public-key'))
 ```
 
 ### getConnectorBaseUrl(req)
-It takes Express request object and returns the connector's base URL. This is the URL to be used by anyone trying to 
-access the connector externally. For identifying the original host request by the caller this reads x-forwarded headers.
+It takes Express request object and returns the connector's base URL. In most cases its only used to 
+generate URLs in the connector discovery, for Mobile Flows server to call into the connector.
+
+The function identifies the original host requested by the caller using x-forwarded headers.
 
 Example
-```$xslt
+```
 const baseUrl = mfCommons.getConnectorBaseUrl(req)
 ```
 
 ### mfRouting.addContextPath(req, res, next)
-Use this function as a middleware for all object and actions APIs. 
+Use this function as a middleware for all object and action APIs. 
 It reads Mobile Flows routing headers and resolves it to the correct value when the connector is hosted behind a path based proxy. 
-If you are uncertain whether it is a required function for you, it is recommended using it always.
-Depending on if the request type below properties will be updated.
+This is necessary for most objects that produce actions and for actions that produce other actions. We recommend always adding this.
+Properties in res.locals will be updated based on the type of request.
 
-For object request - `res.locals.mfRoutingPrefix`
+For object requests - `res.locals.mfRoutingPrefix`
 
-For action request - `res.locals.mfRoutingTemplate`
+For action requests - `res.locals.mfRoutingTemplate`
 
 Example
-```$xslt
+```
 app.use(['/api/*'], mfCommons.mfRouting.addContextPath)
 ```
 
 ### handleXRequestId(req, res, next)
-Use this function as a middleware for all connector APIs, to generate better logs.
-It helps in debugging about a request. If the caller has an id at the header `x-request-id` function reads it, or if
-there isn't any id from caller then function generates one uuid.
+Use this function as a middleware for all connector APIs to generate better logs and help in debugging a request. 
+If the http call comes in with an `x-request-id` header, then this middleware will set it in `res.locals.xRequestId` 
+to be put in logs and for the connector developer to send out in further http calls as needed. 
+If there isn't an `x-request-id` header value, then this middleware will generate one for you.
 
-It sets the value at the property `res.locals.xRequestId`
+The xRequestId in the logs allows the person debugging to correlate all the logs with the original http request.
 
 Example
-```$xslt
-app.use('/*', utility.handleXRequestId)
+```
+app.use('/*', mfCommons.handleXRequestId)
+```
+
+### readBackendBaseUrl(req, res, next)
+This function can be used as a middleware for all connector APIs. If Mobile Flows admin configures a 
+backend base URL for the connector, then this function sets it in `res.locals.baseUrl`.
+
+Adding the middleware allows you to read the base URL from `res.locals.baseUrl`, whenever you need to
+make an API call to backend.
+
+Example
+```
+app.use('/*', mfCommons.readBackendBaseUrl)
 ```
 
 ### logReq(res, format, ...args)
 It can be used to log a message along with some useful properties related to the current request.
-If you want to stop all logs from this library, set any value to the property `process.env.SQUELCH_LOGS`.
 
 Example
-```$xslt
-logReq(res, 'Created ticket: %s', ticketId)
+```
+mfCommons.logReq(res, 'Created ticket: %s', ticketId)
 
 // [req: req-id-1] [t: tenant123] [u: shree] [base: https://backend.com] Created ticket: TKT-5
 ```
 
 ### log(format, ...args)
-It can be used to log a message outside the context of a request. If you want to stop all logs from this library, 
-set any value to the property `process.env.SQUELCH_LOGS`.
-
+It can be used to log a message outside the context of a request.
 
 Example
-```$xslt
-log('Sent samples for analytics.')
+```
+mfCommons.log('Sent samples for analytics.')
 ```
 
 ## Functions available for testing
 
 ## mockMfServer
-This a dummy server to mimic some of the properties of the Mobile Flows server. It will be useful for unit testing purposes.
-Its public key is available at `/public-key`
+This is a dummy server to mimic some properties of the Mobile Flows server. It will be useful for unit testing purposes.
+Its public key is available at `/security/public-key`.
 
 ### start(port)
 Call the method to start the dummy server to listen at the specified port on the localhost. You can have it running
 for a suite of unit tests, instead of starting it once per test.
 
-### stop(function)
-Stop the dummy server after your unit tests. It takes a function that will be called by this library.
+Example
+```
+mfCommons.mockMfServer.start(5000)
+```
 
-### getMfTokenFor(username, audienceUrl)
-This function returns JWT for the connector authorization. It is similar to the one generated by actual 
-Mobile Flows server. You can use this function for specific user and connector URL being tested (audience URL).
+### stop(function = null)
+Stop the dummy server after your unit tests. It optionally takes a callback function that will be invoked by this library.
 
 Example
-```$xslt
-const mfToken = mfCommons.getMfTokenFor('shree', `${CONNECTOR_URL}/api/actions/file-ticket`)
+```
+mfCommons.mockMfServer.stop()
+```
+```
+mfCommons.mockMfServer.stop(function)
+```
+
+### getMfToken({ username, audience })
+This function returns a JWT for the connector authorization.  
+It is similar to the one generated by actual Mobile Flows server. 
+You can use this function for specific user and connector URL being tested (audience URL).
+
+Example
+```
+const mfToken = mfCommons.getMfToken({ username: 'shree', audience: `${CONNECTOR_URL}/api/actions/file-ticket`})
 ```

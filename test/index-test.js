@@ -3,7 +3,7 @@
 const { expect } = require('chai')
 const mockMobileFlows = require('../lib/mock-mf-server')
 const index = require('../index')
-const mockMfPublicKeyUrl = 'http://localhost:5000/public-key'
+const mockMfPublicKeyUrl = 'http://localhost:5000/security/public-key'
 let isNextCalled = false
 
 describe('Mobile Flows connectors common tests', () => {
@@ -26,7 +26,10 @@ describe('Mobile Flows connectors common tests', () => {
 
   describe('Connector auth', () => {
     it('should validate and decode claims', async () => {
-      const mfJwt = mockMobileFlows.getMfTokenFor('shree', 'https://my-host:3030/my-path-prefix/action-one')
+      const mfJwt = mockMobileFlows.getMfToken({
+        username: 'shree',
+        audience: 'https://my-host:3030/my-path-prefix/action-one'
+      })
       const mockReq = {
         headers: {
           authorization: 'Bearer ' + mfJwt,
@@ -55,7 +58,10 @@ describe('Mobile Flows connectors common tests', () => {
 
   describe('Connector auth', () => {
     it('should 401 for wrong audience', async () => {
-      const mfJwt = mockMobileFlows.getMfTokenFor('shree', 'https://hacker-org:3030/my-path-prefix/action-one')
+      const mfJwt = mockMobileFlows.getMfToken({
+        username: 'shree',
+        audience: 'https://hacker-org:3030/my-path-prefix/action-one'
+      })
       const mockReq = {
         headers: {
           authorization: 'Bearer ' + mfJwt,

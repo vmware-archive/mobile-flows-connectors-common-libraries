@@ -120,7 +120,7 @@ Example
 mfCommons.mockMfServer.start(5000)
 ```
 
-### stop(function = null)
+### stop(function)
 Stop the dummy server after your unit tests. It optionally takes a callback function that will be invoked by this library.
 
 Example

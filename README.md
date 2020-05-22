@@ -1,4 +1,4 @@
-# Workspace ONE Connectors Common Libraries
+# Mobile Flows connectors common libraries
 
 ## Overview
 The project is a suite of commonly used utility functions for anyone developing a Mobile Flows connector on Express Node.js. 
@@ -140,3 +140,17 @@ Example
 ```
 const mfToken = mfCommons.getMfToken({ username: 'shree', audience: `${CONNECTOR_URL}/api/actions/file-ticket`})
 ```
+
+
+## Contributing
+
+The mobile-flows-connectors-common-libraries project team welcomes contributions from the community. 
+Before you start working with mobile-flows-connectors-common-libraries, please read 
+our [Developer Certificate of Origin](https://cla.vmware.com/dco). All contributions to this repository must be
+signed as described on that page. Your signature certifies that you wrote the patch or have the right to pass it on
+as an open-source patch. For more detailed information, refer to [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## License
+
+Mobile Flows connectors common libraries under the [BSD 2 license](LICENSE.txt)
+

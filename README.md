@@ -7,11 +7,17 @@ it helps to maintain a similar pattern in the connector code and avoid making mi
 
 You can load this module wherever its required and use necessary functions. 
 ```
-const mfCommons = require('connectors-common-node')
+const mfCommons = require('@vmw/mobile-flows-connector-commons')
 ```
 
 For a detailed, language-neutral, specification for how to develop connectors, 
 please see the [Card Connectors Guide](https://github.com/vmware-samples/card-connectors-guide).
+
+## Installation
+This module is available through the NPM registry.
+```
+$ npm install @vmw/mobile-flows-connector-commons
+```
 
 ## Functions available for development
 

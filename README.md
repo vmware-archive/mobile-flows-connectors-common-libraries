@@ -93,6 +93,22 @@ Example
 app.use('/*', mfCommons.readBackendBaseUrl)
 ```
 
+### readBackendAuthorization(req, res, next)
+This function can be used as a middleware for all connector APIs. It reads the backend authorization from the request
+and sets it in res.locals.backendAuthorization.
+
+Adding the middleware allows you to read backend authorization from `res.locals.backendAuthorization`, whenever you need to
+make an API call to backend.
+
+Note - If the connector configuration in the UEM is of Service account type then the value read by this function may 
+not be ready to directly use for backend API authorization. You will actually see the same value that was entered by tenant admin in UEM for the connector.
+So, it might need further processing in this case depending upon backend.
+
+Example
+```
+app.use('/*', mfCommons.readBackendAuthorization)
+```
+
 ### logReq(res, format, ...args)
 It can be used to log a message along with some useful properties related to the current request.
 
@@ -100,7 +116,7 @@ Example
 ```
 mfCommons.logReq(res, 'Created ticket: %s', ticketId)
 
-// [req: req-id-1] [t: tenant123] [u: shree] [base: https://backend.com] Created ticket: TKT-5
+// [req: req-id-1] [t: tenant123] [u: shree] [e: user@vmware.com] [base: https://backend.com] Created ticket: TKT-5
 ```
 
 ### log(format, ...args)

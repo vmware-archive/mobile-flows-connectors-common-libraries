@@ -69,7 +69,7 @@ describe('Log wrapper tests', () => {
     }
 
     index.logReq(mockRes, 'Bla')
-    expect(console.log).calledOnceWith('[t: tenant123] [u: shree] Bla')
+    expect(console.log).calledOnceWith('[t: tenant123] [u: shree] [e: shree@vmware.com] Bla')
   })
 
   it('should log all the properties when exists.', async () => {
@@ -88,7 +88,7 @@ describe('Log wrapper tests', () => {
     }
 
     index.logReq(mockRes, 'Bla')
-    expect(console.log).calledOnceWith('[req: req-id-1] [t: tenant123] [u: shree] [base: https://backend.com] Bla')
+    expect(console.log).calledOnceWith('[req: req-id-1] [t: tenant123] [u: shree] [e: shree@vmware.com] [base: https://backend.com] Bla')
   })
 
   it('should log without any variables read by wrapper', async () => {

@@ -33,7 +33,7 @@ describe('Backend function tests', () => {
     expect(mockRes.locals.baseUrl).to.eql('https://salesforce.com')
   })
 
-  it('should read x-connector-authorization header', async () => {
+  it('should read all x-connector headers', async () => {
     const mockReq = {
       headers: {
         'x-connector-base-url': 'https://salesforce.com',
@@ -44,7 +44,8 @@ describe('Backend function tests', () => {
       locals: {}
     }
 
-    backend.readBackendAuthorization(mockReq, mockRes, mockNext)
+    backend.readBackendHeaders(mockReq, mockRes, mockNext)
+    expect(mockRes.locals.backendBaseUrl).to.eql('https://salesforce.com')
     expect(mockRes.locals.backendAuthorization).to.eql('Bearer salesforce-oauth-token')
   })
 
@@ -58,7 +59,20 @@ describe('Backend function tests', () => {
       locals: {}
     }
 
-    backend.readBackendBaseUrl(mockReq, mockRes, mockNext)
+    backend.readBackendHeaders(mockReq, mockRes, mockNext)
+  })
+
+  it('should not error if backend authorization is missing.', async () => {
+    const mockReq = {
+      headers: {
+        'x-connector-base-url': 'https://salesforce.com'
+      }
+    }
+    const mockRes = {
+      locals: {}
+    }
+
+    backend.readBackendHeaders(mockReq, mockRes, mockNext)
   })
 })
 

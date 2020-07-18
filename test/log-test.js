@@ -44,6 +44,18 @@ describe('Log wrapper tests', () => {
     expect(console.log).calledOnceWith('[base: https://backend.com] Bla')
   })
 
+  // New function 'readBackendHeaders' reads backend base url into res.locals.backendBaseUrl
+  it('should log base URL from res.locals.backendBaseUrl property.', async () => {
+    const mockRes = {
+      locals: {
+        backendBaseUrl: 'https://backend.com'
+      }
+    }
+
+    index.logReq(mockRes, 'Bla')
+    expect(console.log).calledOnceWith('[base: https://backend.com] Bla')
+  })
+
   it('should log xRequestId', async () => {
     const mockRes = {
       locals: {

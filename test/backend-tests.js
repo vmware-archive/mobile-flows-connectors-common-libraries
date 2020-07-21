@@ -6,7 +6,7 @@
 'use strict'
 
 const { expect } = require('chai')
-const backend = require('../lib/backend')
+const index = require('../index')
 let isNextCalled = false
 
 describe('Backend function tests', () => {
@@ -29,7 +29,7 @@ describe('Backend function tests', () => {
       locals: {}
     }
 
-    backend.readBackendBaseUrl(mockReq, mockRes, mockNext)
+    index.readBackendBaseUrl(mockReq, mockRes, mockNext)
     expect(mockRes.locals.baseUrl).to.eql('https://salesforce.com')
   })
 
@@ -44,7 +44,7 @@ describe('Backend function tests', () => {
       locals: {}
     }
 
-    backend.readBackendHeaders(mockReq, mockRes, mockNext)
+    index.readBackendHeaders(mockReq, mockRes, mockNext)
     expect(mockRes.locals.backendBaseUrl).to.eql('https://salesforce.com')
     expect(mockRes.locals.backendAuthorization).to.eql('Bearer salesforce-oauth-token')
   })
@@ -59,7 +59,7 @@ describe('Backend function tests', () => {
       locals: {}
     }
 
-    backend.readBackendHeaders(mockReq, mockRes, mockNext)
+    index.readBackendHeaders(mockReq, mockRes, mockNext)
   })
 
   it('should not error if backend authorization is missing.', async () => {
@@ -72,7 +72,7 @@ describe('Backend function tests', () => {
       locals: {}
     }
 
-    backend.readBackendHeaders(mockReq, mockRes, mockNext)
+    index.readBackendHeaders(mockReq, mockRes, mockNext)
   })
 })
 

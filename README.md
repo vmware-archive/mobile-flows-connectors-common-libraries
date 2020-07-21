@@ -82,6 +82,9 @@ app.use('/*', mfCommons.handleXRequestId)
 ```
 
 ### readBackendBaseUrl(req, res, next)
+This function is **deprecated since 1.1.0** and will be deleted in the version 2.0.0
+Please switch to use [readBackendHeaders](#readBackendHeadersreq-res-next)
+
 This function can be used as a middleware for all connector APIs. If Mobile Flows admin configures a 
 backend base URL for the connector, then this function sets it in `res.locals.baseUrl`.
 
@@ -93,6 +96,22 @@ Example
 app.use('/*', mfCommons.readBackendBaseUrl)
 ```
 
+### readBackendHeaders(req, res, next)
+This function can be used as a middleware for all connector APIs. It reads all the backend headers ('x-connector-' headers) 
+and sets them in local variables.
+
+Adding the middleware will be helpfull to read backend base URL from `res.locals.backendBaseUrl` and backend authorization from `res.locals.backendAuthorization`, 
+whenever you need to make an API call to backend.
+
+Note - If the connector configuration in the UEM is of Service account type then the value on res.locals.backendAuthorization
+may not be ready to use directly while calling a backend API. You will actually see it's the same value that was entered by 
+tenant admin in UEM for the connector. So, it might need further processing in this case depending upon the backend.
+
+Example
+```
+app.use('/*', mfCommons.readBackendHeaders)
+```
+
 ### logReq(res, format, ...args)
 It can be used to log a message along with some useful properties related to the current request.
 
@@ -100,7 +119,7 @@ Example
 ```
 mfCommons.logReq(res, 'Created ticket: %s', ticketId)
 
-// [req: req-id-1] [t: tenant123] [u: shree] [base: https://backend.com] Created ticket: TKT-5
+// [req: req-id-1] [t: tenant123] [u: shree] [e: user@vmware.com] [base: https://backend.com] Created ticket: TKT-5
 ```
 
 ### log(format, ...args)

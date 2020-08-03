@@ -168,31 +168,31 @@ const mfToken = mfCommons.getMfToken({ username: 'shree', audience: `${CONNECTOR
 
 ### validateDiscovery(discoveryMetadata)
 This function validates discovery metadata response. It can be used by connector developers to write unit tests.  
-The function takes in a string of discovery metadata json response. Returns an object containing validation and error  
-informations. The key properties of the returned object are "valid" and "errors".  
-         
+The function takes in the discovery metadata json response as an object. Returns an object of the validation results.    
+The key properties of the returned object are "valid" and "errors".  
+
 Example
 ```
 mfCommons.validateDiscovery({
-    "object_types": {
-        "card": {
-            "endpoint": {
-                "href": "https://test.com"
-            },
-            "pollable": true
-        }
+  object_types: {
+    card: {
+      endpoint: {
+        href: 'https://test.com'
+      },
+      pollable: true
     }
+  }
 }).valid
 
 mfCommons.validateDiscovery({
-    "object_types": {
-        "card": {
-            "endpoint": {
-                "href": "https://test.com"
-            },
-            "pollable": "test"
-        }
+  object_types: {
+    card: {
+      endpoint: {
+        href: 'https://test.com'
+      },
+      pollable: "test"
     }
+  }
 }).errors
 ```
 

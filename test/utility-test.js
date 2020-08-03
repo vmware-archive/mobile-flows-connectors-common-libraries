@@ -70,6 +70,36 @@ describe('Utility function tests', () => {
       expect(connectorUrl).to.eql('http://host-one')
     })
   })
+
+  describe('validateDiscovery', () => {
+    it('should return true for valid discovery meta data', () => {
+      const validDiscoveryMetaData = `{
+        "object_types": {
+            "card": {
+                "endpoint": {
+                    "href": "https://test.com"
+                },
+                "pollable": true
+            }
+        }
+      }`
+      expect(index.validateDiscovery(validDiscoveryMetaData).valid).to.eql(true)
+    })
+
+    it('should return false for invalid discovery meta data', () => {
+      const inValidDiscoveryMetaData = `{
+        "object_types": {
+            "card": {
+                "endpoint": {
+                    "href": "test.com"
+                },
+                "pollable": "test"
+            }
+        }
+      }`
+      expect(index.validateDiscovery(inValidDiscoveryMetaData).valid).to.eql(false)
+    })
+  })
 })
 
 const mockNext = () => {

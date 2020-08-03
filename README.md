@@ -188,7 +188,7 @@ mfCommons.validateDiscovery({
   object_types: {
     card: {
       endpoint: {
-        href: 'https://test.com'
+        href: 'https://test2.com'
       },
       pollable: "test"
     }

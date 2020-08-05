@@ -100,6 +100,71 @@ describe('Utility function tests', () => {
       expect(index.validateDiscovery(inValidDiscoveryMetaData).valid).to.eql(false)
     })    
   })
+
+  describe('validateCard', () => {
+    it('should return true for valid card metaData', () => {
+      const validCardMetaData = {
+        objects: [{
+          id: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+          header: {
+              title: 'test'
+          },
+          body: {
+              description: 'test'
+          },
+          backend_id: 'test',
+          hash: 'test',
+          actions: [
+              {
+                  id: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+                  action_key: 'OPEN_IN',
+                  label: 'test',
+                  completed_label: 'test',
+                  type: 'GET',
+                  primary: true,
+                  remove_card_on_completion: false,
+                  allow_repeated: true,
+                  url: {
+                  href: 'https://test.com'
+                  }
+              }
+          ]
+        }]
+      }
+      expect(index.validateCard(validCardMetaData).valid).to.eql(true)
+    })
+
+    it('should return false for invalid card metaData', () => {
+      const inValidCardMetaData = {
+        objects: [{
+          id: 'test',
+          header: {
+              title: 'test'
+          },
+          body: {
+              description: 'test'
+          },
+          backend_id: 'test',
+          hash: 'test',
+          actions: [
+              {
+                  id: 'test',             
+                  label: 'Open Zone Info',
+                  completed_label: 'Zone Info Opened',
+                  type: 'GET',
+                  primary: true,
+                  remove_card_on_completion: false,
+                  allow_repeated: true,
+                  url: {
+                  href: 'https://test.com'
+                  }
+              }
+          ]
+        }]
+      }
+      expect(index.validateCard(inValidCardMetaData).valid).to.eql(false)
+    })    
+  })
 })
 
 const mockNext = () => {

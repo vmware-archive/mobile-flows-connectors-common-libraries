@@ -196,6 +196,43 @@ mfCommons.validateDiscovery({
 }).errors
 ```
 
+### validateCard(cardMetadata)
+This function validates card metadata response. It can be used by connector developers to write unit tests.  
+The function takes in the card metadata json response as an object. Returns an object of the validation results.    
+The key properties of the returned object are "valid" and "errors".  
+
+Example
+```
+mfCommons.validateCard({
+  objects: [{
+    id: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+    header: {
+        title: 'test'
+    },
+    body: {
+        description: 'test'
+    },
+    backend_id: 'test',
+    hash: 'test',
+    actions: [
+      {
+        id: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+        action_key: 'OPEN_IN',
+        label: 'test',
+        completed_label: 'test',
+        type: 'GET',
+        primary: true,
+        remove_card_on_completion: false,
+        allow_repeated: true,
+        url: {
+        href: 'https://test.com'
+        }
+      }
+    ]
+  }]
+}).valid
+```
+
 
 ## Contributing
 

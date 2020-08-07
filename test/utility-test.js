@@ -79,7 +79,7 @@ describe('Utility function tests', () => {
             endpoint: {
               href: 'https://test.com'
             },
-            pollable: true,
+            pollable: true
           }
         }
       }

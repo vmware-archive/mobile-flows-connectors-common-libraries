@@ -233,6 +233,49 @@ mfCommons.validateCard({
 }).valid
 ```
 
+### validateBotDiscovery(botDiscoveryMetadata)
+This function validates bot discovery metadata response. It can be used by connector developers to write unit tests.    
+The function takes in the bot discovery itemDetails metadata json response as an object. Returns an object of the validation   results. The key properties of the returned object are "valid" and "errors".   
+
+Example
+```
+mfCommons.validateBotDiscovery({
+  "children": [{
+    "itemDetails": {
+      "id": "bf838612-019d-4ce5-90b4-8b1a0d48ffd8",
+      "title": "Register a new device.",
+      "description": "Register your new device.",
+      "workflowId": "test",
+      "workflowStep": "Complete",
+      "actions": [{
+        "title": "Register a new device.",
+        "description": "Register your new device.",
+        "url": {
+          "href": "https://test.com"
+        },
+        "type": "GET"
+      }]
+    }
+  }, {
+    "itemDetails": {
+      "id": "a573b652-66a9-4166-bea5-8048eef52021",
+      "title": "Sync device.",
+      "description": "Sync your device.",
+      "workflowId": "test",
+      "workflowStep": "Complete",
+      "actions": [{
+          "title": "Sync device.",
+          "description": "Sync your device.",
+          "url": {
+              "href": "https://test.com"
+          },
+          "type": "GET"
+      }]
+    }
+  }]
+}).valid
+```
+
 
 ## Contributing
 

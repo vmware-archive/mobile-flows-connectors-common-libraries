@@ -79,7 +79,7 @@ describe('Utility function tests', () => {
             endpoint: {
               href: 'https://test.com'
             },
-            pollable: true
+            pollable: true,
           }
         }
       }
@@ -163,6 +163,86 @@ describe('Utility function tests', () => {
         }]
       }
       expect(index.validateCard(inValidCardMetaData).valid).to.eql(false)
+    })    
+  })
+
+  describe('validateBotDiscovery', () => {
+    it('should return true for valid validateBotDiscovery metaData', () => {
+      const validBotDiscoveryMetaData = {
+        "children": [{
+            "itemDetails": {
+                "id": "bf838612-018d-4ce9-90b4-8b1a0d48ffd8",
+                "title": "test",
+                "description": "test",
+                "workflowId": "test",
+                "workflowStep": "Complete",
+                "actions": [{
+                    "title": "Register a new device.",
+                    "description": "Register your new device.",
+                    "url": {
+                        "href": "https://test.com"
+                    },
+                    "type": "GET"
+                }]
+            }
+        }, {
+            "itemDetails": {
+                "id": "a573b652-66a5-4169-bea5-8048eef52021",
+                "title": "Sync device.",
+                "description": "Sync your device.",
+                "workflowId": "test",
+                "workflowStep": "Complete",
+                "actions": [{
+                    "title": "Sync device.",
+                    "description": "Sync your device.",
+                    "url": {
+                        "href": "https://test.com"
+                    },
+                    "type": "GET"
+                }]
+            }
+        }]
+    }
+      expect(index.validateBotDiscovery(validBotDiscoveryMetaData).valid).to.eql(true)
+    })
+
+    it('should return false for invalid BotDiscovery metaData', () => {
+      const inValidBotDiscoveryMetaData = {
+        "children": [{
+            "itemDetails": {
+                "id": 1234,
+                "title": "Register a new device.",
+                "description": "Register your new device.",
+                "workflowId": "test",
+                "workflowStep": "Complete",
+                "actions": [{
+                    "title": "Register a new device.",
+                    "description": "Register your new device.",
+                    "url": {
+                        "href": 1234
+                    },
+                    "type": "GET"
+                }]
+            }
+        }, {
+            "itemDetails": {
+                "id": 1234,
+                "title": "Sync device.",
+                "description": "Sync your device.",
+                "workflowId": "test",
+                "workflowStep": "Complete",
+                "actions": [{
+                    "title": "Sync device.",
+                    "description": "Sync your device.",
+                    "url": {
+                        "href": 1234
+                    },
+                    "type": "GET"
+                }]
+            }
+        }]
+    }
+      expect(index.validateBotDiscovery(inValidBotDiscoveryMetaData).valid).to.eql(false)
     })    
   })
 })

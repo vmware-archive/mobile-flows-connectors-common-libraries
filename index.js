@@ -5,7 +5,7 @@
 
 'use strict'
 
-const { getConnectorBaseUrl, handleXRequestId, validateDiscovery, validateCard } = require('./lib/utility')
+const { getConnectorBaseUrl, handleXRequestId, validateDiscovery, validateCard, validateBotDiscovery } = require('./lib/utility')
 const { readBackendBaseUrl, readBackendHeaders } = require('./lib/backend')
 const { validateAuth } = require('./lib/auth')
 const mfRouting = require('./lib/mf-routing')
@@ -23,5 +23,6 @@ module.exports = Object.freeze({
   log,
   logReq,
   validateDiscovery,
-  validateCard 
+  validateCard,
+  validateBotDiscovery
 })

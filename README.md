@@ -235,7 +235,8 @@ mfCommons.validateCard({
 
 ### validateBotDiscovery(botDiscoveryMetadata)
 This function validates bot discovery metadata response. It can be used by connector developers to write unit tests.    
-The function takes in the bot discovery itemDetails metadata json response as an object. Returns an object of the validation   results. The key properties of the returned object are "valid" and "errors".   
+The function takes in the bot discovery itemDetails metadata json response as an object. Returns an object of the validation  
+results. The key properties of the returned object are "valid" and "errors".   
 
 Example
 ```

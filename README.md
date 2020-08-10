@@ -197,7 +197,7 @@ mfCommons.validateDiscovery({
 ```
 
 ### validateCard(cardMetadata)
-This function validates card metadata response. It can be used by connector developers to write unit tests.  
+This function validates card response. It can be used by connector developers to write unit tests.  
 The function takes in the card metadata json response as an object. Returns an object of the validation results.    
 The key properties of the returned object are "valid" and "errors".  
 

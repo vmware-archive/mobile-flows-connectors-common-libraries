@@ -93,157 +93,932 @@ describe('Utility function tests', () => {
             endpoint: {
               href: 'https://test.com'
             },
-            pollable: "test"
+            pollable: 'test'
           }
         }
       }
       expect(index.validateDiscovery(inValidDiscoveryMetaData).valid).to.eql(false)
-    })    
+    })
   })
 
   describe('validateCard', () => {
-    it('should return true for valid card metaData', () => {
-      const validCardMetaData = {
+    it('should return true for valid card Data', () => {
+      const validCardData = {
         objects: [{
           id: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
           header: {
-              title: 'test'
+            title: 'test'
           },
           body: {
-              description: 'test'
+            description: 'test'
           },
           backend_id: 'test',
           hash: 'test',
           actions: [
-              {
-                  id: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
-                  action_key: 'OPEN_IN',
-                  label: 'test',
-                  completed_label: 'test',
-                  type: 'GET',
-                  primary: true,
-                  remove_card_on_completion: false,
-                  allow_repeated: true,
-                  url: {
-                  href: 'https://test.com'
-                  }
+            {
+              id: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+              action_key: 'OPEN_IN',
+              label: 'test',
+              completed_label: 'test',
+              type: 'GET',
+              primary: true,
+              remove_card_on_completion: false,
+              allow_repeated: true,
+              url: {
+                href: 'https://test.com'
               }
+            }
           ]
         }]
       }
-      expect(index.validateCard(validCardMetaData).valid).to.eql(true)
+      expect(index.validateCard(validCardData).valid).to.eql(true)
     })
 
-    it('should return false for invalid card metaData', () => {
-      const inValidCardMetaData = {
+    it('should return false for invalid card data', () => {
+      const invalidCardData = {
         objects: [{
           id: 'test',
           header: {
-              title: 'test'
+            title: 'test'
           },
           body: {
-              description: 'test'
+            description: 'test'
           },
           backend_id: 'test',
           hash: 'test',
           actions: [
-              {
-                  id: 'test',             
-                  label: 'Open Zone Info',
-                  completed_label: 'Zone Info Opened',
-                  type: 'GET',
-                  primary: true,
-                  remove_card_on_completion: false,
-                  allow_repeated: true,
-                  url: {
-                  href: 'https://test.com'
-                  }
+            {
+              id: 'test',
+              label: 'Open Zone Info',
+              completed_label: 'Zone Info Opened',
+              type: 'GET',
+              primary: true,
+              remove_card_on_completion: false,
+              allow_repeated: true,
+              url: {
+                href: 'https://test.com'
               }
+            }
           ]
         }]
       }
-      expect(index.validateCard(inValidCardMetaData).valid).to.eql(false)
-    })    
+      expect(index.validateCard(invalidCardData).valid).to.eql(false)
+    })
   })
 
   describe('validateBotDiscovery', () => {
     it('should return true for valid validateBotDiscovery metaData', () => {
       const validBotDiscoveryMetaData = {
-        "children": [{
-            "itemDetails": {
-                "id": "bf838612-018d-4ce9-90b4-8b1a0d48ffd8",
-                "title": "test",
-                "description": "test",
-                "workflowId": "test",
-                "workflowStep": "Complete",
-                "actions": [{
-                    "title": "Register a new device.",
-                    "description": "Register your new device.",
-                    "url": {
-                        "href": "https://test.com"
-                    },
-                    "type": "GET"
-                }]
-            }
-        }, {
-            "itemDetails": {
-                "id": "a573b652-66a5-4169-bea5-8048eef52021",
-                "title": "Sync device.",
-                "description": "Sync your device.",
-                "workflowId": "test",
-                "workflowStep": "Complete",
-                "actions": [{
-                    "title": "Sync device.",
-                    "description": "Sync your device.",
-                    "url": {
-                        "href": "https://test.com"
-                    },
-                    "type": "GET"
-                }]
-            }
-        }]
-    }
+        objects: [
+          {
+            children: [
+              {
+                itemDetails: {
+                  id: '00000000-0000-0000-0000-000000000000',
+                  title: 'Create a ticket',
+                  description: 'File your issues for IT.',
+                  actions: [
+                    {
+                      title: 'Create a ticket',
+                      description: 'Create a new ticket',
+                      type: 'POST',
+                      url: {
+                        href: 'https://mf/connectors/abc123/botDiscovery/api/v1/task/confirm_create'
+                      },
+                      payload: {
+                        type: 'incident'
+                      },
+                      headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                      },
+                      userInput: [
+                        {
+                          id: 'shortDescription',
+                          label: 'Please give a short description to create your ticket.',
+                          format: 'textarea',
+                          minLength: 1,
+                          maxLength: 160
+                        }
+                      ]
+                    }
+                  ],
+                  workflowId: 'vmw_FILE_GENERAL_TICKET',
+                  workflowStep: 'Complete'
+                }
+              },
+              {
+                itemDetails: {
+                  id: '00000000-0000-0000-0000-000000000000',
+                  title: 'View my tickets',
+                  description: 'View the tickets that I currently have open',
+                  actions: [
+                    {
+                      title: 'View my tickets',
+                      description: 'View the status of my open tickets',
+                      type: 'POST',
+                      url: {
+                        href: 'https://mf/connectors/abc123/botDiscovery/api/v1/tasks'
+                      },
+                      payload: {
+                        type: 'task'
+                      },
+                      headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                      },
+                      userInput: []
+                    }
+                  ],
+                  workflowId: 'vmw_GET_TICKET_STATUS',
+                  workflowStep: 'Complete'
+                }
+              },
+              {
+                itemDetails: {
+                  id: '00000000-0000-0000-0000-000000000000',
+                  title: 'Order a device',
+                  description: 'You can order a device here.',
+                  actions: [
+                    {
+                      title: 'View Device Categories',
+                      description: 'You can view device categories.',
+                      type: 'GET',
+                      url: {
+                        href: 'https://mf/connectors/abc123/botDiscovery/api/v1/deviceCategoryList'
+                      },
+                      payload: {},
+                      headers: {},
+                      userInput: []
+                    }
+                  ],
+                  workflowId: 'vmw_ORDER_NEW_DEVICE',
+                  workflowStep: 'Complete'
+                }
+              },
+              {
+                itemDetails: {
+                  id: '00000000-0000-0000-0000-000000000000',
+                  title: 'Order a Laptop',
+                  description: 'You can order a Laptop here.',
+                  actions: [
+                    {
+                      title: 'View List Of Laptops',
+                      description: 'You can view list of Laptops.',
+                      type: 'GET',
+                      url: {
+                        href: 'https://mf/connectors/abc123/botDiscovery/api/v1/device_list?device_category=Laptops&limit=10&offset=0'
+                      },
+                      payload: {},
+                      headers: {},
+                      userInput: []
+                    }
+                  ],
+                  workflowId: 'vmw_ORDER_LAPTOP',
+                  workflowStep: 'Complete'
+                }
+              },
+              {
+                itemDetails: {
+                  id: '00000000-0000-0000-0000-000000000000',
+                  title: 'Order a Desktop',
+                  description: 'You can order a Desktop here.',
+                  actions: [
+                    {
+                      title: 'View List Of Desktops',
+                      description: 'You can view list of Desktops.',
+                      type: 'GET',
+                      url: {
+                        href: 'https://mf/connectors/abc123/botDiscovery/api/v1/device_list?device_category=Desktops&limit=10&offset=0'
+                      },
+                      payload: {},
+                      headers: {},
+                      userInput: []
+                    }
+                  ],
+                  workflowId: 'vmw_ORDER_DESKTOP',
+                  workflowStep: 'Complete'
+                }
+              },
+              {
+                itemDetails: {
+                  id: '00000000-0000-0000-0000-000000000000',
+                  title: 'Order a Mobile device',
+                  description: 'You can order a Mobile device here.',
+                  actions: [
+                    {
+                      title: 'View List Of Mobile devices',
+                      description: 'You can view list of Mobile devices.',
+                      type: 'GET',
+                      url: {
+                        href: 'https://mf/connectors/abc123/botDiscovery/api/v1/device_list?device_category=Mobiles&limit=10&offset=0'
+                      },
+                      payload: {},
+                      headers: {},
+                      userInput: []
+                    }
+                  ],
+                  workflowId: 'vmw_ORDER_MOBILE',
+                  workflowStep: 'Complete'
+                }
+              },
+              {
+                itemDetails: {
+                  id: '00000000-0000-0000-0000-000000000000',
+                  title: 'Order a Tablet',
+                  description: 'You can order a Tablet here.',
+                  actions: [
+                    {
+                      title: 'View List Of Tablets',
+                      description: 'You can view list of Tablets.',
+                      type: 'GET',
+                      url: {
+                        href: 'https://mf/connectors/abc123/botDiscovery/api/v1/device_list?device_category=Tablets&limit=10&offset=0'
+                      },
+                      payload: {},
+                      headers: {},
+                      userInput: []
+                    }
+                  ],
+                  workflowId: 'vmw_ORDER_TABLET',
+                  workflowStep: 'Complete'
+                }
+              }
+            ]
+          }
+        ]
+      }
       expect(index.validateBotDiscovery(validBotDiscoveryMetaData).valid).to.eql(true)
     })
 
     it('should return false for invalid BotDiscovery metaData', () => {
-      const inValidBotDiscoveryMetaData = {
-        "children": [{
-            "itemDetails": {
-                "id": 1234,
-                "title": "Register a new device.",
-                "description": "Register your new device.",
-                "workflowId": "test",
-                "workflowStep": "Complete",
-                "actions": [{
-                    "title": "Register a new device.",
-                    "description": "Register your new device.",
-                    "url": {
-                        "href": 1234
-                    },
-                    "type": "GET"
-                }]
+      const invalidBotDiscoveryMetadata = {
+        objects: [
+          {
+            children: [
+              {
+                itemDetails: {
+                  id: 12345,
+                  title: 'Create a ticket',
+                  description: 'File your issues for IT.',
+                  actions: [
+                    {
+                      title: 'Create a ticket',
+                      description: 'Create a new ticket',
+                      type: 'POST',
+                      url: {
+                        href: 'https://mf/connectors/abc123/botDiscovery/api/v1/task/confirm_create'
+                      },
+                      payload: {
+                        type: 'incident'
+                      },
+                      headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                      },
+                      userInput: [
+                        {
+                          id: 'shortDescription',
+                          label: 'Please give a short description to create your ticket.',
+                          format: 'textarea',
+                          minLength: 1,
+                          maxLength: 160
+                        }
+                      ]
+                    }
+                  ],
+                  workflowId: 'vmw_FILE_GENERAL_TICKET',
+                  workflowStep: 'Complete'
+                }
+              },
+              {
+                itemDetails: {
+                  id: '00000000-0000-0000-0000-000000000000',
+                  title: 'View my tickets',
+                  description: 'View the tickets that I currently have open',
+                  actions: [
+                    {
+                      title: 'View my tickets',
+                      description: 'View the status of my open tickets',
+                      type: 'POST',
+                      url: {
+                        href: 'https://mf/connectors/abc123/botDiscovery/api/v1/tasks'
+                      },
+                      payload: {
+                        type: 'task'
+                      },
+                      headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                      },
+                      userInput: []
+                    }
+                  ],
+                  workflowId: 'vmw_GET_TICKET_STATUS',
+                  workflowStep: 'Complete'
+                }
+              },
+              {
+                itemDetails: {
+                  id: 12345,
+                  title: 'Order a device',
+                  description: 'You can order a device here.',
+                  actions: [
+                    {
+                      title: 'View Device Categories',
+                      description: 'You can view device categories.',
+                      type: 'GET',
+                      url: {
+                        href: 'https://mf/connectors/abc123/botDiscovery/api/v1/deviceCategoryList'
+                      },
+                      payload: {},
+                      headers: {},
+                      userInput: []
+                    }
+                  ],
+                  workflowId: 'vmw_ORDER_NEW_DEVICE',
+                  workflowStep: 'Complete'
+                }
+              },
+              {
+                itemDetails: {
+                  id: 12345,
+                  title: 'Order a Laptop',
+                  description: 'You can order a Laptop here.',
+                  actions: [
+                    {
+                      title: 'View List Of Laptops',
+                      description: 'You can view list of Laptops.',
+                      type: 'GET',
+                      url: {
+                        href: 12345
+                      },
+                      payload: {},
+                      headers: {},
+                      userInput: []
+                    }
+                  ],
+                  workflowId: 'vmw_ORDER_LAPTOP',
+                  workflowStep: 'Complete'
+                }
+              },
+              {
+                itemDetails: {
+                  id: 12345,
+                  title: 'Order a Desktop',
+                  description: 'You can order a Desktop here.',
+                  actions: [
+                    {
+                      title: 'View List Of Desktops',
+                      description: 'You can view list of Desktops.',
+                      type: 'GET',
+                      url: {
+                        href: 12345
+                      },
+                      payload: {},
+                      headers: {},
+                      userInput: []
+                    }
+                  ],
+                  workflowId: 'vmw_ORDER_DESKTOP',
+                  workflowStep: 'Complete'
+                }
+              },
+              {
+                itemDetails: {
+                  id: '00000000-0000-0000-0000-000000000000',
+                  title: 'Order a Mobile device',
+                  description: 'You can order a Mobile device here.',
+                  actions: [
+                    {
+                      title: 'View List Of Mobile devices',
+                      description: 'You can view list of Mobile devices.',
+                      type: 'GET',
+                      url: {
+                        href: 'https://mf/connectors/abc123/botDiscovery/api/v1/device_list?device_category=Mobiles&limit=10&offset=0'
+                      },
+                      payload: {},
+                      headers: {},
+                      userInput: []
+                    }
+                  ],
+                  workflowId: 'vmw_ORDER_MOBILE',
+                  workflowStep: 'Complete'
+                }
+              },
+              {
+                itemDetails: {
+                  id: '00000000-0000-0000-0000-000000000000',
+                  title: 'Order a Tablet',
+                  description: 'You can order a Tablet here.',
+                  actions: [
+                    {
+                      title: 'View List Of Tablets',
+                      description: 'You can view list of Tablets.',
+                      type: 'GET',
+                      url: {
+                        href: 'https://mf/connectors/abc123/botDiscovery/api/v1/device_list?device_category=Tablets&limit=10&offset=0'
+                      },
+                      payload: {},
+                      headers: {},
+                      userInput: []
+                    }
+                  ],
+                  workflowId: 'vmw_ORDER_TABLET',
+                  workflowStep: 'Complete'
+                }
+              }
+            ]
+          }
+        ]
+      }
+      expect(index.validateBotDiscovery(invalidBotDiscoveryMetadata).valid).to.eql(false)
+    })
+    it('should return false for invalid BotDiscovery metaData length', () => {
+      const invalidBotDiscoveryLength = {
+        objects: [
+          {
+            children: [
+              {
+                itemDetails: {
+                  id: 12345,
+                  title: 'Order a device',
+                  description: 'You can order a device here.',
+                  actions: [
+                    {
+                      title: 'View Device Categories',
+                      description: 'You can view device categories.',
+                      type: 'GET',
+                      url: {
+                        href: 'https://mf/connectors/abc123/botDiscovery/api/v1/deviceCategoryList'
+                      },
+                      payload: {},
+                      headers: {},
+                      userInput: []
+                    }
+                  ],
+                  workflowId: 'vmw_ORDER_NEW_DEVICE',
+                  workflowStep: 'Complete'
+                }
+              }
+            ]
+          },
+          {
+            children: [
+              {
+                itemDetails: {
+                  id: 12345,
+                  title: 'Order a device',
+                  description: 'You can order a device here.',
+                  actions: [
+                    {
+                      title: 'View Device Categories',
+                      description: 'You can view device categories.',
+                      type: 'GET',
+                      url: {
+                        href: 'https://mf/connectors/abc123/botDiscovery/api/v1/deviceCategoryList'
+                      },
+                      payload: {},
+                      headers: {},
+                      userInput: []
+                    }
+                  ],
+                  workflowId: 'vmw_ORDER_NEW_DEVICE',
+                  workflowStep: 'Complete'
+                }
+              }
+            ]
+          }
+        ]
+      }
+      expect(index.validateBotDiscovery(invalidBotDiscoveryLength).valid).to.eql(false)
+    })
+  })
+
+  describe('validateBotObjects', () => {
+    it('should return true for valid bot objects', () => {
+      const validBotObjects = {
+        objects: [
+          {
+            itemDetails: {
+              id: '00000000-0000-0000-0000-000000000000',
+              title: 'Here are your most recent, open tickets.',
+              type: 'text',
+              workflowStep: 'Complete'
             }
-        }, {
-            "itemDetails": {
-                "id": 1234,
-                "title": "Sync device.",
-                "description": "Sync your device.",
-                "workflowId": "test",
-                "workflowStep": "Complete",
-                "actions": [{
-                    "title": "Sync device.",
-                    "description": "Sync your device.",
-                    "url": {
-                        "href": 1234
+          },
+          {
+            itemDetails: {
+              id: '00000000-0000-0000-0000-000000000000',
+              title: 'ServiceNow ticket: TKT0010001',
+              subtitle: 'Open',
+              description: 'Via connector action',
+              workflowStep: 'Complete',
+              url: {
+                href: 'https://dev15329.service-now.com/task.do?sys_id=f8cfe469db153300ea92eb41ca96198b'
+              },
+              type: 'status',
+              tabularData: [
+                {
+                  data: [
+                    {
+                      title: 'impact',
+                      shortDescription: '3'
                     },
-                    "type": "GET"
-                }]
+                    {
+                      title: 'status',
+                      shortDescription: 'Open'
+                    },
+                    {
+                      title: 'shortDescription',
+                      shortDescription: 'Via connector action'
+                    },
+                    {
+                      title: 'ticketNo',
+                      shortDescription: 'TKT0010001',
+                      url: {
+                        href: 'https://dev15329.service-now.com/task.do?sys_id=f8cfe469db153300ea92eb41ca96198b'
+                      }
+                    }
+                  ]
+                }
+              ]
             }
-        }]
-    }
-      expect(index.validateBotDiscovery(inValidBotDiscoveryMetaData).valid).to.eql(false)
-    })    
+          },
+          {
+            itemDetails: {
+              id: '00000000-0000-0000-0000-000000000000',
+              title: 'ServiceNow ticket: TKT0010002',
+              subtitle: 'Open',
+              description: 'Via connector action 2',
+              workflowStep: 'Complete',
+              url: {
+                href: 'https://dev15329.service-now.com/task.do?sys_id=f9817ca9db153300ea92eb41ca9619d7'
+              },
+              type: 'status',
+              tabularData: [
+                {
+                  data: [
+                    {
+                      title: 'impact',
+                      shortDescription: '3'
+                    },
+                    {
+                      title: 'status',
+                      shortDescription: 'Open'
+                    },
+                    {
+                      title: 'shortDescription',
+                      shortDescription: 'Via connector action 2'
+                    },
+                    {
+                      title: 'ticketNo',
+                      shortDescription: 'TKT0010002',
+                      url: {
+                        href: 'https://dev15329.service-now.com/task.do?sys_id=f9817ca9db153300ea92eb41ca9619d7'
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            itemDetails: {
+              id: '00000000-0000-0000-0000-000000000000',
+              title: 'ServiceNow ticket: TKT0010002',
+              subtitle: 'Open',
+              description: 'Via connector action 2',
+              workflowStep: 'Complete',
+              url: {
+                href: 'https://dev15329.service-now.com/task.do?sys_id=f9817ca9db153300ea92eb41ca9619d7'
+              },
+              type: 'status',
+              tabularData: [
+                {
+                  data: [
+                    {
+                      title: 'impact',
+                      shortDescription: '3'
+                    },
+                    {
+                      title: 'status',
+                      shortDescription: 'Open'
+                    },
+                    {
+                      title: 'shortDescription',
+                      shortDescription: 'Via connector action 2'
+                    },
+                    {
+                      title: 'ticketNo',
+                      shortDescription: 'TKT0010002',
+                      url: {
+                        href: 'https://dev15329.service-now.com/task.do?sys_id=f9817ca9db153300ea92eb41ca9619d7'
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            itemDetails: {
+              id: '00000000-0000-0000-0000-000000000000',
+              title: 'ServiceNow ticket: TKT0010002',
+              subtitle: 'Open',
+              description: 'Via connector action 2',
+              workflowStep: 'Complete',
+              url: {
+                href: 'https://dev15329.service-now.com/task.do?sys_id=f9817ca9db153300ea92eb41ca9619d7'
+              },
+              type: 'status',
+              tabularData: [
+                {
+                  data: [
+                    {
+                      title: 'impact',
+                      shortDescription: '3'
+                    },
+                    {
+                      title: 'status',
+                      shortDescription: 'Open'
+                    },
+                    {
+                      title: 'shortDescription',
+                      shortDescription: 'Via connector action 2'
+                    },
+                    {
+                      title: 'ticketNo',
+                      shortDescription: 'TKT0010002',
+                      url: {
+                        href: 'https://dev15329.service-now.com/task.do?sys_id=f9817ca9db153300ea92eb41ca9619d7'
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            itemDetails: {
+              id: '00000000-0000-0000-0000-000000000000',
+              title: 'ServiceNow ticket: TKT0010002',
+              subtitle: 'Open',
+              description: 'Via connector action 2',
+              workflowStep: 'Complete',
+              url: {
+                href: 'https://dev15329.service-now.com/task.do?sys_id=f9817ca9db153300ea92eb41ca9619d7'
+              },
+              type: 'status',
+              tabularData: [
+                {
+                  data: [
+                    {
+                      title: 'impact',
+                      shortDescription: '3'
+                    },
+                    {
+                      title: 'status',
+                      shortDescription: 'Open'
+                    },
+                    {
+                      title: 'shortDescription',
+                      shortDescription: 'Via connector action 2'
+                    },
+                    {
+                      title: 'ticketNo',
+                      shortDescription: 'TKT0010002',
+                      url: {
+                        href: 'https://dev15329.service-now.com/task.do?sys_id=f9817ca9db153300ea92eb41ca9619d7'
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            itemDetails: {
+              id: '00000000-0000-0000-0000-000000000000',
+              title: 'Did you find what you\'re looking for? If not, try visiting the ticket portal: https://dev15329.service-now.com/',
+              type: 'text',
+              workflowStep: 'Complete'
+            }
+          }
+        ]
+      }
+      expect(index.validateBotObjects(validBotObjects).valid).to.eql(true)
+    })
+
+    it('should return false for invalid bot objects', () => {
+      const invalidBotObjects = {
+        objects: [
+          {
+            itemDetails: {
+              id: 12345,
+              title: 'Here are your most recent, open tickets.',
+              type: 'text',
+              workflowStep: 'Complete'
+            }
+          },
+          {
+            itemDetails: {
+              id: '00000000-0000-0000-0000-000000000000',
+              title: 'ServiceNow ticket: TKT0010001',
+              subtitle: 'Open',
+              description: 'Via connector action',
+              workflowStep: 'Complete',
+              url: {
+                href: 'test'
+              },
+              type: 'status',
+              tabularData: [
+                {
+                  data: [
+                    {
+                      title: 'impact',
+                      shortDescription: '3'
+                    },
+                    {
+                      title: 'status',
+                      shortDescription: 'Open'
+                    },
+                    {
+                      title: 'shortDescription',
+                      shortDescription: 'Via connector action'
+                    },
+                    {
+                      title: 'ticketNo',
+                      shortDescription: 'TKT0010001',
+                      url: {
+                        href: 'https://dev15329.service-now.com/task.do?sys_id=f8cfe469db153300ea92eb41ca96198b'
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            itemDetails: {
+              id: '00000000-0000-0000-0000-000000000000',
+              title: 'ServiceNow ticket: TKT0010002',
+              subtitle: 'Open',
+              description: 'Via connector action 2',
+              workflowStep: 'Complete',
+              url: {
+                href: 'https://dev15329.service-now.com/task.do?sys_id=f9817ca9db153300ea92eb41ca9619d7'
+              },
+              type: 'status',
+              tabularData: [
+                {
+                  data: [
+                    {
+                      title: 'impact',
+                      shortDescription: '3'
+                    },
+                    {
+                      title: 'status',
+                      shortDescription: 'Open'
+                    },
+                    {
+                      title: 'shortDescription',
+                      shortDescription: 'Via connector action 2'
+                    },
+                    {
+                      title: 'ticketNo',
+                      shortDescription: 'TKT0010002',
+                      url: {
+                        href: 'https://dev15329.service-now.com/task.do?sys_id=f9817ca9db153300ea92eb41ca9619d7'
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            itemDetails: {
+              id: '00000000-0000-0000-0000-000000000000',
+              title: 'ServiceNow ticket: TKT0010002',
+              subtitle: 'Open',
+              description: 'Via connector action 2',
+              workflowStep: 'Complete',
+              url: {
+                href: 'https://dev15329.service-now.com/task.do?sys_id=f9817ca9db153300ea92eb41ca9619d7'
+              },
+              type: 'status',
+              tabularData: [
+                {
+                  data: [
+                    {
+                      title: 'impact',
+                      shortDescription: '3'
+                    },
+                    {
+                      title: 'status',
+                      shortDescription: 'Open'
+                    },
+                    {
+                      title: 'shortDescription',
+                      shortDescription: 'Via connector action 2'
+                    },
+                    {
+                      title: 'ticketNo',
+                      shortDescription: 'TKT0010002',
+                      url: {
+                        href: 'https://dev15329.service-now.com/task.do?sys_id=f9817ca9db153300ea92eb41ca9619d7'
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            itemDetails: {
+              id: '00000000-0000-0000-0000-000000000000',
+              title: 'ServiceNow ticket: TKT0010002',
+              subtitle: 'Open',
+              description: 'Via connector action 2',
+              workflowStep: 'Complete',
+              url: {
+                href: 1234
+              },
+              type: 'status',
+              tabularData: [
+                {
+                  data: [
+                    {
+                      title: 'impact',
+                      shortDescription: '3'
+                    },
+                    {
+                      title: 'status',
+                      shortDescription: 'Open'
+                    },
+                    {
+                      title: 'shortDescription',
+                      shortDescription: 'Via connector action 2'
+                    },
+                    {
+                      title: 'ticketNo',
+                      shortDescription: 'TKT0010002',
+                      url: {
+                        href: 'https://dev15329.service-now.com/task.do?sys_id=f9817ca9db153300ea92eb41ca9619d7'
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            itemDetails: {
+              id: 1234,
+              title: 'ServiceNow ticket: TKT0010002',
+              subtitle: 'Open',
+              description: 'Via connector action 2',
+              workflowStep: 'Complete',
+              url: {
+                href: 'https://dev15329.service-now.com/task.do?sys_id=f9817ca9db153300ea92eb41ca9619d7'
+              },
+              type: 'status',
+              tabularData: [
+                {
+                  data: [
+                    {
+                      title: 'impact',
+                      shortDescription: '3'
+                    },
+                    {
+                      title: 'status',
+                      shortDescription: 'Open'
+                    },
+                    {
+                      title: 'shortDescription',
+                      shortDescription: 'Via connector action 2'
+                    },
+                    {
+                      title: 'ticketNo',
+                      shortDescription: 'TKT0010002',
+                      url: {
+                        href: 'https://dev15329.service-now.com/task.do?sys_id=f9817ca9db153300ea92eb41ca9619d7'
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            itemDetails: {
+              id: 1234,
+              title: 'Did you find what you\'re looking for? If not, try visiting the ticket portal: https://dev15329.service-now.com/',
+              type: 'text',
+              workflowStep: 'Complete'
+            }
+          }
+        ]
+      }
+      expect(index.validateBotObjects(invalidBotObjects).valid).to.eql(false)
+    })
   })
 })
 

@@ -235,45 +235,91 @@ mfCommons.validateCard({
 
 ### validateBotDiscovery(botDiscoveryMetadata)
 This function validates bot discovery metadata response. It can be used by connector developers to write unit tests.    
-The function takes in the bot discovery itemDetails metadata json response as an object. Returns an object of the validation  
+The function takes in the bot discovery metadata json response as an object. Returns an object of the validation  
 results. The key properties of the returned object are "valid" and "errors".   
 
 Example
 ```
 mfCommons.validateBotDiscovery({
-  "children": [{
-    "itemDetails": {
-      "id": "bf838612-019d-4ce5-90b4-8b1a0d48ffd8",
-      "title": "Register a new device.",
-      "description": "Register your new device.",
-      "workflowId": "test",
-      "workflowStep": "Complete",
-      "actions": [{
-        "title": "Register a new device.",
-        "description": "Register your new device.",
-        "url": {
-          "href": "https://test.com"
+  objects: [
+    {
+      children: [
+        {
+          itemDetails: {
+            id: '00000000-0000-0000-0000-000000000000',
+            title: 'Order a Desktop',
+            description: 'You can order a Desktop here.',
+            actions: [
+              {
+                title: 'View List Of Desktops',
+                description: 'You can view list of Desktops.',
+                type: 'GET',
+                url: {
+                  href: 'https://mf/connectors/abc123/botDiscovery/api/v1/device_list?device_category=Desktops&limit=10&offset=0'
+                },
+                payload: {},
+                headers: {},
+                userInput: []
+              }
+            ],
+            workflowId: 'vmw_ORDER_DESKTOP',
+            workflowStep: 'Complete'
+          }
         },
-        "type": "GET"
-      }]
+        {
+          itemDetails: {
+            id: '00000000-0000-0000-0000-000000000000',
+            title: 'Order a Tablet',
+            description: 'You can order a Tablet here.',
+            actions: [
+              {
+                title: 'View List Of Tablets',
+                description: 'You can view list of Tablets.',
+                type: 'GET',
+                url: {
+                  href: 'https://mf/connectors/abc123/botDiscovery/api/v1/device_list?device_category=Tablets&limit=10&offset=0'
+                },
+                payload: {},
+                headers: {},
+                userInput: []
+              }
+            ],
+            workflowId: 'vmw_ORDER_TABLET',
+            workflowStep: 'Complete'
+          }
+        }
+      ]
     }
-  }, {
-    "itemDetails": {
-      "id": "a573b652-66a9-4166-bea5-8048eef52021",
-      "title": "Sync device.",
-      "description": "Sync your device.",
-      "workflowId": "test",
-      "workflowStep": "Complete",
-      "actions": [{
-          "title": "Sync device.",
-          "description": "Sync your device.",
-          "url": {
-              "href": "https://test.com"
-          },
-          "type": "GET"
-      }]
+  ]
+}).valid
+```
+
+### validateBotObjects(botObjects)
+This function validates bot objects. It can be used by connector developers to write unit tests.    
+The function takes in the chatbot objects. Returns an object of the validationresults.  
+The key properties of the returned object are "valid" and "errors".   
+
+Example
+```
+mfCommons.validateBotObjects({
+  objects: [
+    {
+      itemDetails: {
+        id: '00000000-0000-0000-0000-000000000000',
+        title: 'Here are your most recent, open tickets.',
+        type: 'text',
+        workflowStep: 'Complete'
+      }
+    },
+    {
+      itemDetails: {
+        id: '00000000-0000-0000-0000-000000000000',
+        title: 'Did you find what you\'re looking for? If not, try visiting the ticket portal: https://dev15329.service-now.com/',
+        type: 'text',
+        workflowStep: 'Complete'
+      }
     }
-  }]
+  ]
 }).valid
 ```
 

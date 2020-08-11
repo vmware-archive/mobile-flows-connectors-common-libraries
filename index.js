@@ -7,7 +7,7 @@
 
 const {
   getConnectorBaseUrl, handleXRequestId, validateDiscovery,
-  validateCard, validateBotDiscovery, validateBotObjects
+  validateCard, validateBotDiscovery, validateBotObject
 } = require('./lib/utility')
 const { readBackendBaseUrl, readBackendHeaders } = require('./lib/backend')
 const { validateAuth } = require('./lib/auth')
@@ -28,5 +28,5 @@ module.exports = Object.freeze({
   validateDiscovery,
   validateCard,
   validateBotDiscovery,
-  validateBotObjects
+  validateBotObject
 })

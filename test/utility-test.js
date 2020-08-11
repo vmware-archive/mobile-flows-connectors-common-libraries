@@ -591,433 +591,103 @@ describe('Utility function tests', () => {
     })
   })
 
-  describe('validateBotObjects', () => {
-    it('should return true for valid bot objects', () => {
-      const validBotObjects = {
-        objects: [
-          {
-            itemDetails: {
-              id: '00000000-0000-0000-0000-000000000000',
-              title: 'Here are your most recent, open tickets.',
-              type: 'text',
-              workflowStep: 'Complete'
-            }
+  describe('validateBotObject', () => {
+    it('should return true for a valid bot object', () => {
+      expect(index.validateBotObject({
+        itemDetails: {
+          id: '00000000-0000-0000-0000-000000000000',
+          title: 'Here are your most recent, open tickets.',
+          type: 'text',
+          workflowStep: 'Complete'
+        }
+      }).valid).to.eql(true)
+      expect(index.validateBotObject({
+        itemDetails: {
+          id: '00000000-0000-0000-0000-000000000000',
+          title: 'ServiceNow ticket: TKT0010001',
+          subtitle: 'Open',
+          description: 'Via connector action',
+          workflowStep: 'Complete',
+          url: {
+            href: 'https://dev15329.service-now.com/task.do?sys_id=f8cfe469db153300ea92eb41ca96198b'
           },
-          {
-            itemDetails: {
-              id: '00000000-0000-0000-0000-000000000000',
-              title: 'ServiceNow ticket: TKT0010001',
-              subtitle: 'Open',
-              description: 'Via connector action',
-              workflowStep: 'Complete',
-              url: {
-                href: 'https://dev15329.service-now.com/task.do?sys_id=f8cfe469db153300ea92eb41ca96198b'
-              },
-              type: 'status',
-              tabularData: [
+          type: 'status',
+          tabularData: [
+            {
+              data: [
                 {
-                  data: [
-                    {
-                      title: 'impact',
-                      shortDescription: '3'
-                    },
-                    {
-                      title: 'status',
-                      shortDescription: 'Open'
-                    },
-                    {
-                      title: 'shortDescription',
-                      shortDescription: 'Via connector action'
-                    },
-                    {
-                      title: 'ticketNo',
-                      shortDescription: 'TKT0010001',
-                      url: {
-                        href: 'https://dev15329.service-now.com/task.do?sys_id=f8cfe469db153300ea92eb41ca96198b'
-                      }
-                    }
-                  ]
+                  title: 'impact',
+                  shortDescription: '3'
+                },
+                {
+                  title: 'status',
+                  shortDescription: 'Open'
+                },
+                {
+                  title: 'shortDescription',
+                  shortDescription: 'Via connector action'
+                },
+                {
+                  title: 'ticketNo',
+                  shortDescription: 'TKT0010001',
+                  url: {
+                    href: 'https://dev15329.service-now.com/task.do?sys_id=f8cfe469db153300ea92eb41ca96198b'
+                  }
                 }
               ]
             }
-          },
-          {
-            itemDetails: {
-              id: '00000000-0000-0000-0000-000000000000',
-              title: 'ServiceNow ticket: TKT0010002',
-              subtitle: 'Open',
-              description: 'Via connector action 2',
-              workflowStep: 'Complete',
-              url: {
-                href: 'https://dev15329.service-now.com/task.do?sys_id=f9817ca9db153300ea92eb41ca9619d7'
-              },
-              type: 'status',
-              tabularData: [
-                {
-                  data: [
-                    {
-                      title: 'impact',
-                      shortDescription: '3'
-                    },
-                    {
-                      title: 'status',
-                      shortDescription: 'Open'
-                    },
-                    {
-                      title: 'shortDescription',
-                      shortDescription: 'Via connector action 2'
-                    },
-                    {
-                      title: 'ticketNo',
-                      shortDescription: 'TKT0010002',
-                      url: {
-                        href: 'https://dev15329.service-now.com/task.do?sys_id=f9817ca9db153300ea92eb41ca9619d7'
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            itemDetails: {
-              id: '00000000-0000-0000-0000-000000000000',
-              title: 'ServiceNow ticket: TKT0010002',
-              subtitle: 'Open',
-              description: 'Via connector action 2',
-              workflowStep: 'Complete',
-              url: {
-                href: 'https://dev15329.service-now.com/task.do?sys_id=f9817ca9db153300ea92eb41ca9619d7'
-              },
-              type: 'status',
-              tabularData: [
-                {
-                  data: [
-                    {
-                      title: 'impact',
-                      shortDescription: '3'
-                    },
-                    {
-                      title: 'status',
-                      shortDescription: 'Open'
-                    },
-                    {
-                      title: 'shortDescription',
-                      shortDescription: 'Via connector action 2'
-                    },
-                    {
-                      title: 'ticketNo',
-                      shortDescription: 'TKT0010002',
-                      url: {
-                        href: 'https://dev15329.service-now.com/task.do?sys_id=f9817ca9db153300ea92eb41ca9619d7'
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            itemDetails: {
-              id: '00000000-0000-0000-0000-000000000000',
-              title: 'ServiceNow ticket: TKT0010002',
-              subtitle: 'Open',
-              description: 'Via connector action 2',
-              workflowStep: 'Complete',
-              url: {
-                href: 'https://dev15329.service-now.com/task.do?sys_id=f9817ca9db153300ea92eb41ca9619d7'
-              },
-              type: 'status',
-              tabularData: [
-                {
-                  data: [
-                    {
-                      title: 'impact',
-                      shortDescription: '3'
-                    },
-                    {
-                      title: 'status',
-                      shortDescription: 'Open'
-                    },
-                    {
-                      title: 'shortDescription',
-                      shortDescription: 'Via connector action 2'
-                    },
-                    {
-                      title: 'ticketNo',
-                      shortDescription: 'TKT0010002',
-                      url: {
-                        href: 'https://dev15329.service-now.com/task.do?sys_id=f9817ca9db153300ea92eb41ca9619d7'
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            itemDetails: {
-              id: '00000000-0000-0000-0000-000000000000',
-              title: 'ServiceNow ticket: TKT0010002',
-              subtitle: 'Open',
-              description: 'Via connector action 2',
-              workflowStep: 'Complete',
-              url: {
-                href: 'https://dev15329.service-now.com/task.do?sys_id=f9817ca9db153300ea92eb41ca9619d7'
-              },
-              type: 'status',
-              tabularData: [
-                {
-                  data: [
-                    {
-                      title: 'impact',
-                      shortDescription: '3'
-                    },
-                    {
-                      title: 'status',
-                      shortDescription: 'Open'
-                    },
-                    {
-                      title: 'shortDescription',
-                      shortDescription: 'Via connector action 2'
-                    },
-                    {
-                      title: 'ticketNo',
-                      shortDescription: 'TKT0010002',
-                      url: {
-                        href: 'https://dev15329.service-now.com/task.do?sys_id=f9817ca9db153300ea92eb41ca9619d7'
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            itemDetails: {
-              id: '00000000-0000-0000-0000-000000000000',
-              title: 'Did you find what you\'re looking for? If not, try visiting the ticket portal: https://dev15329.service-now.com/',
-              type: 'text',
-              workflowStep: 'Complete'
-            }
-          }
-        ]
-      }
-      expect(index.validateBotObjects(validBotObjects).valid).to.eql(true)
+          ]
+        }
+      }).valid).to.eql(true)
     })
 
-    it('should return false for invalid bot objects', () => {
-      const invalidBotObjects = {
-        objects: [
-          {
-            itemDetails: {
-              id: 12345,
-              title: 'Here are your most recent, open tickets.',
-              type: 'text',
-              workflowStep: 'Complete'
-            }
+    it('should return false for an invalid bot object', () => {
+      expect(index.validateBotObject({
+        itemDetails: {
+          id: 12345,
+          title: 'Here are your most recent, open tickets.',
+          type: 'text',
+          workflowStep: 'Complete'
+        }
+      }).valid).to.eql(false)
+      expect(index.validateBotObject({
+        itemDetails: {
+          id: 12345,
+          title: 'ServiceNow ticket: TKT0010001',
+          subtitle: 'Open',
+          description: 'Via connector action',
+          workflowStep: 'Complete',
+          url: {
+            href: 'test'
           },
-          {
-            itemDetails: {
-              id: '00000000-0000-0000-0000-000000000000',
-              title: 'ServiceNow ticket: TKT0010001',
-              subtitle: 'Open',
-              description: 'Via connector action',
-              workflowStep: 'Complete',
-              url: {
-                href: 'test'
-              },
-              type: 'status',
-              tabularData: [
+          type: 'status',
+          tabularData: [
+            {
+              data: [
                 {
-                  data: [
-                    {
-                      title: 'impact',
-                      shortDescription: '3'
-                    },
-                    {
-                      title: 'status',
-                      shortDescription: 'Open'
-                    },
-                    {
-                      title: 'shortDescription',
-                      shortDescription: 'Via connector action'
-                    },
-                    {
-                      title: 'ticketNo',
-                      shortDescription: 'TKT0010001',
-                      url: {
-                        href: 'https://dev15329.service-now.com/task.do?sys_id=f8cfe469db153300ea92eb41ca96198b'
-                      }
-                    }
-                  ]
+                  title: 'impact',
+                  shortDescription: '3'
+                },
+                {
+                  title: 'status',
+                  shortDescription: 'Open'
+                },
+                {
+                  title: 'shortDescription',
+                  shortDescription: 'Via connector action'
+                },
+                {
+                  title: 'ticketNo',
+                  shortDescription: 'TKT0010001',
+                  url: {
+                    href: 'test'
+                  }
                 }
               ]
             }
-          },
-          {
-            itemDetails: {
-              id: '00000000-0000-0000-0000-000000000000',
-              title: 'ServiceNow ticket: TKT0010002',
-              subtitle: 'Open',
-              description: 'Via connector action 2',
-              workflowStep: 'Complete',
-              url: {
-                href: 'https://dev15329.service-now.com/task.do?sys_id=f9817ca9db153300ea92eb41ca9619d7'
-              },
-              type: 'status',
-              tabularData: [
-                {
-                  data: [
-                    {
-                      title: 'impact',
-                      shortDescription: '3'
-                    },
-                    {
-                      title: 'status',
-                      shortDescription: 'Open'
-                    },
-                    {
-                      title: 'shortDescription',
-                      shortDescription: 'Via connector action 2'
-                    },
-                    {
-                      title: 'ticketNo',
-                      shortDescription: 'TKT0010002',
-                      url: {
-                        href: 'https://dev15329.service-now.com/task.do?sys_id=f9817ca9db153300ea92eb41ca9619d7'
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            itemDetails: {
-              id: '00000000-0000-0000-0000-000000000000',
-              title: 'ServiceNow ticket: TKT0010002',
-              subtitle: 'Open',
-              description: 'Via connector action 2',
-              workflowStep: 'Complete',
-              url: {
-                href: 'https://dev15329.service-now.com/task.do?sys_id=f9817ca9db153300ea92eb41ca9619d7'
-              },
-              type: 'status',
-              tabularData: [
-                {
-                  data: [
-                    {
-                      title: 'impact',
-                      shortDescription: '3'
-                    },
-                    {
-                      title: 'status',
-                      shortDescription: 'Open'
-                    },
-                    {
-                      title: 'shortDescription',
-                      shortDescription: 'Via connector action 2'
-                    },
-                    {
-                      title: 'ticketNo',
-                      shortDescription: 'TKT0010002',
-                      url: {
-                        href: 'https://dev15329.service-now.com/task.do?sys_id=f9817ca9db153300ea92eb41ca9619d7'
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            itemDetails: {
-              id: '00000000-0000-0000-0000-000000000000',
-              title: 'ServiceNow ticket: TKT0010002',
-              subtitle: 'Open',
-              description: 'Via connector action 2',
-              workflowStep: 'Complete',
-              url: {
-                href: 1234
-              },
-              type: 'status',
-              tabularData: [
-                {
-                  data: [
-                    {
-                      title: 'impact',
-                      shortDescription: '3'
-                    },
-                    {
-                      title: 'status',
-                      shortDescription: 'Open'
-                    },
-                    {
-                      title: 'shortDescription',
-                      shortDescription: 'Via connector action 2'
-                    },
-                    {
-                      title: 'ticketNo',
-                      shortDescription: 'TKT0010002',
-                      url: {
-                        href: 'https://dev15329.service-now.com/task.do?sys_id=f9817ca9db153300ea92eb41ca9619d7'
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            itemDetails: {
-              id: 1234,
-              title: 'ServiceNow ticket: TKT0010002',
-              subtitle: 'Open',
-              description: 'Via connector action 2',
-              workflowStep: 'Complete',
-              url: {
-                href: 'https://dev15329.service-now.com/task.do?sys_id=f9817ca9db153300ea92eb41ca9619d7'
-              },
-              type: 'status',
-              tabularData: [
-                {
-                  data: [
-                    {
-                      title: 'impact',
-                      shortDescription: '3'
-                    },
-                    {
-                      title: 'status',
-                      shortDescription: 'Open'
-                    },
-                    {
-                      title: 'shortDescription',
-                      shortDescription: 'Via connector action 2'
-                    },
-                    {
-                      title: 'ticketNo',
-                      shortDescription: 'TKT0010002',
-                      url: {
-                        href: 'https://dev15329.service-now.com/task.do?sys_id=f9817ca9db153300ea92eb41ca9619d7'
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            itemDetails: {
-              id: 1234,
-              title: 'Did you find what you\'re looking for? If not, try visiting the ticket portal: https://dev15329.service-now.com/',
-              type: 'text',
-              workflowStep: 'Complete'
-            }
-          }
-        ]
-      }
-      expect(index.validateBotObjects(invalidBotObjects).valid).to.eql(false)
+          ]
+        }
+      }).valid).to.eql(false)
     })
   })
 })

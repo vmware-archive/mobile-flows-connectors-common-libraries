@@ -294,35 +294,23 @@ mfCommons.validateBotDiscovery({
 }).valid
 ```
 
-### validateBotObjects(botObjects)
-This function validates bot objects. It can be used by connector developers to write unit tests.    
-The function takes in the chatbot objects. Returns an object of the validationresults.  
-The key properties of the returned object are "valid" and "errors".   
+### validateBotObject(botObject)
+This function validates bot object. It can be used by connector developers to write unit tests.     
+The function takes in a chatbot object. Returns an object of the validationresults.    
+The key properties of the returned object are "valid" and "errors".     
 
 Example
 ```
-mfCommons.validateBotObjects({
-  objects: [
-    {
-      itemDetails: {
-        id: '00000000-0000-0000-0000-000000000000',
-        title: 'Here are your most recent, open tickets.',
-        type: 'text',
-        workflowStep: 'Complete'
-      }
-    },
-    {
-      itemDetails: {
-        id: '00000000-0000-0000-0000-000000000000',
-        title: 'Did you find what you\'re looking for? If not, try visiting the ticket portal: https://dev15329.service-now.com/',
-        type: 'text',
-        workflowStep: 'Complete'
-      }
+mfCommons.validateBotObject({
+    itemDetails: {
+      id: '00000000-0000-0000-0000-000000000000',
+      title: 'Here are your most recent, open tickets.',
+      type: 'text',
+      workflowStep: 'Complete'
     }
-  ]
-}).valid
+  }
+).valid
 ```
-
 
 ## Contributing
 

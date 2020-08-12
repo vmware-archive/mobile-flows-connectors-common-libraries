@@ -85,6 +85,41 @@ describe('Log wrapper tests', () => {
     expect(console.log).calledOnceWith('[t: tenant123] [u: shree] [e: shree@vmware.com] [ph: true] Bla')
   })
 
+  it('should log mfJwt without preHire', async () => {
+    const mockRes = {
+      locals: {
+        mfJwt: {
+          tenantId: 'tenant123',
+          username: 'shree',
+          email: 'shree@vmware.com',
+          idmDomain: 'vmware.com',
+          decoded: {}
+        }
+      }
+    }
+
+    index.logReq(mockRes, 'Bla')
+    expect(console.log).calledOnceWith('[t: tenant123] [u: shree] [e: shree@vmware.com] Bla')
+  })
+
+  it('should log mfJwt without preHire set to false', async () => {
+    const mockRes = {
+      locals: {
+        mfJwt: {
+          tenantId: 'tenant123',
+          username: 'shree',
+          email: 'shree@vmware.com',
+          idmDomain: 'vmware.com',
+          decoded: {},
+          preHire: false
+        }
+      }
+    }
+
+    index.logReq(mockRes, 'Bla')
+    expect(console.log).calledOnceWith('[t: tenant123] [u: shree] [e: shree@vmware.com] [ph: false] Bla')
+  })
+
   it('should log all the properties when exists.', async () => {
     const mockRes = {
       locals: {

@@ -102,7 +102,7 @@ describe('Log wrapper tests', () => {
     expect(console.log).calledOnceWith('[t: tenant123] [u: shree] [e: shree@vmware.com] Bla')
   })
 
-  it('should log mfJwt without preHire set to false', async () => {
+  it('should log mfJwt with preHire set to false', async () => {
     const mockRes = {
       locals: {
         mfJwt: {

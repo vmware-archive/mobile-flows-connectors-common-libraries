@@ -34,7 +34,8 @@ res.locals.mfJwt.tenantId = 'Mobile Flows tenant id'
 res.locals.mfJwt.username = 'Username'
 res.locals.mfJwt.email = 'User email id'
 res.locals.mfJwt.idmDomain = 'User IDM domain id'
-res.locals.mfJwt.decoded = 'All decoded params of the JWT'
+res.locals.mfJwt.decoded = 'All decoded params of the JWT'  
+res.locals.mfJwt.preHire = 'User pre-hire flag'
 ```
 
 Example

@@ -75,6 +75,24 @@ describe('Log wrapper tests', () => {
           username: 'shree',
           email: 'shree@vmware.com',
           idmDomain: 'vmware.com',
+          decoded: {},
+          preHire: true
+        }
+      }
+    }
+
+    index.logReq(mockRes, 'Bla')
+    expect(console.log).calledOnceWith('[t: tenant123] [u: shree] [e: shree@vmware.com] [ph: true] Bla')
+  })
+
+  it('should log mfJwt without preHire', async () => {
+    const mockRes = {
+      locals: {
+        mfJwt: {
+          tenantId: 'tenant123',
+          username: 'shree',
+          email: 'shree@vmware.com',
+          idmDomain: 'vmware.com',
           decoded: {}
         }
       }
@@ -82,6 +100,24 @@ describe('Log wrapper tests', () => {
 
     index.logReq(mockRes, 'Bla')
     expect(console.log).calledOnceWith('[t: tenant123] [u: shree] [e: shree@vmware.com] Bla')
+  })
+
+  it('should log mfJwt with preHire set to false', async () => {
+    const mockRes = {
+      locals: {
+        mfJwt: {
+          tenantId: 'tenant123',
+          username: 'shree',
+          email: 'shree@vmware.com',
+          idmDomain: 'vmware.com',
+          decoded: {},
+          preHire: false
+        }
+      }
+    }
+
+    index.logReq(mockRes, 'Bla')
+    expect(console.log).calledOnceWith('[t: tenant123] [u: shree] [e: shree@vmware.com] [ph: false] Bla')
   })
 
   it('should log all the properties when exists.', async () => {
@@ -94,13 +130,14 @@ describe('Log wrapper tests', () => {
           username: 'shree',
           email: 'shree@vmware.com',
           idmDomain: 'vmware.com',
-          decoded: {}
+          decoded: {},
+          preHire: false
         }
       }
     }
 
     index.logReq(mockRes, 'Bla')
-    expect(console.log).calledOnceWith('[req: req-id-1] [t: tenant123] [u: shree] [e: shree@vmware.com] [base: https://backend.com] Bla')
+    expect(console.log).calledOnceWith('[req: req-id-1] [t: tenant123] [u: shree] [e: shree@vmware.com] [base: https://backend.com] [ph: false] Bla')
   })
 
   it('should log without any variables read by wrapper', async () => {

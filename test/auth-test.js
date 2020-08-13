@@ -33,7 +33,8 @@ describe('Mobile Flows connectors common tests', () => {
     it('should validate and decode claims', async () => {
       const mfJwt = mockMobileFlows.getMfToken({
         username: 'shree',
-        audience: 'https://my-host:3030/my-path-prefix/action-one'
+        audience: 'https://my-host:3030/my-path-prefix/action-one',
+        pre_hire: true
       })
       const mockReq = {
         headers: {
@@ -57,6 +58,7 @@ describe('Mobile Flows connectors common tests', () => {
       expect(mockRes.locals.mfJwt.email).to.eql('shree@vmware.com')
       expect(mockRes.locals.mfJwt.idmDomain).to.eql('vmware.com')
       expect(mockRes.locals.mfJwt.decoded.tenant).to.eql('tenantId')
+      expect(mockRes.locals.mfJwt.preHire).to.eql(true)
       expect(isNextCalled).to.eql(true)
     })
   })
@@ -65,7 +67,8 @@ describe('Mobile Flows connectors common tests', () => {
     it('should 401 for wrong audience', async () => {
       const mfJwt = mockMobileFlows.getMfToken({
         username: 'shree',
-        audience: 'https://hacker-org:3030/my-path-prefix/action-one'
+        audience: 'https://hacker-org:3030/my-path-prefix/action-one',
+        pre_hire: false
       })
       const mockReq = {
         headers: {

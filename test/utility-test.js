@@ -102,8 +102,9 @@ describe('Utility function tests', () => {
   })
 
   describe('validateCard', () => {
-    it('should return true for valid card Data', () => {
-      const validCardData = {
+
+    const getValidCardData = () => {
+      return {
         objects: [{
           id: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
           header: {
@@ -114,16 +115,28 @@ describe('Utility function tests', () => {
           },
           backend_id: 'test',
           hash: 'test',
+          sticky: {
+            until: '2020-12-31T23:59:59.000Z',
+            type: 'foo'
+          },
           actions: [
             {
               id: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
-              action_key: 'OPEN_IN',
+              action_key: 'USER_INPUT',
               label: 'test',
               completed_label: 'test',
               type: 'GET',
+              content_type: 'application/json',
               primary: true,
               remove_card_on_completion: false,
               allow_repeated: true,
+              user_input: [
+                {
+                  id: 'foo',
+                  label: 'bar',
+                  display_content: 'baz'
+                }
+              ],
               url: {
                 href: 'https://test.com'
               }
@@ -131,7 +144,11 @@ describe('Utility function tests', () => {
           ]
         }]
       }
-      expect(index.validateCard(validCardData).valid).to.eql(true)
+    }
+
+    it('should return true for valid card Data', () => {
+      const cardData = getValidCardData()
+      expect(index.validateCard(cardData).valid).to.eql(true)
     })
 
     it('should return false for invalid card data', () => {
@@ -164,6 +181,25 @@ describe('Utility function tests', () => {
       }
       expect(index.validateCard(invalidCardData).valid).to.eql(false)
     })
+
+    it('should return false for invalid display_content', () => {
+      const cardData = getValidCardData()
+      cardData.objects[0].actions[0].user_input[0].display_content = 42
+      expect(index.validateCard(cardData).valid).to.eql(false)
+    })
+
+    it('should return false for invalid content_type', () => {
+      const cardData = getValidCardData()
+      cardData.objects[0].actions[0].content_type = 42
+      expect(index.validateCard(cardData).valid).to.eql(false)
+    })
+
+    it('should return false for invalid sticky', () => {
+      const cardData = getValidCardData()
+      cardData.objects[0].sticky.type = 42
+      expect(index.validateCard(cardData).valid).to.eql(false)
+    })
+
   })
 
   describe('validateBotDiscovery', () => {

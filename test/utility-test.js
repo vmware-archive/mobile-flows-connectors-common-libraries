@@ -110,6 +110,21 @@ describe('Utility function tests', () => {
           header: {
             title: 'test'
           },
+          banner: {
+            items: [
+              {
+                type: 'video',
+                href: 'https://vmware.com/video.stream',
+                title: 'Streaming video',
+                description: 'A video description'
+              },
+              {
+                type: 'image',
+                href: 'https://vmware.com/image.png',
+                description: 'An image description'
+              }
+            ]
+          },
           body: {
             description: 'test'
           },
@@ -197,6 +212,25 @@ describe('Utility function tests', () => {
     it('should return false for invalid sticky', () => {
       const cardData = getValidCardData()
       cardData.objects[0].sticky.type = 42
+      expect(index.validateCard(cardData).valid).to.eql(false)
+    })
+
+    it('should return false for invalid banner', () => {
+      let cardData = getValidCardData()
+
+      cardData.objects[0].banner.items[0].type = 'invalid-type'
+      expect(index.validateCard(cardData).valid).to.eql(false)
+
+      cardData = getValidCardData()
+      delete cardData.objects[0].banner.items[0].type
+      expect(index.validateCard(cardData).valid).to.eql(false)
+
+      cardData = getValidCardData()
+      cardData.objects[0].banner.items[0].href = 'invalid-uri'
+      expect(index.validateCard(cardData).valid).to.eql(false)
+
+      cardData = getValidCardData()
+      delete cardData.objects[0].banner.items[0].href
       expect(index.validateCard(cardData).valid).to.eql(false)
     })
 

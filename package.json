@@ -1,6 +1,6 @@
 {
   "name": "@vmw/mobile-flows-connector-commons",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "Commonly used functionalities by Mobile Flows connectors",
   "main": "index.js",
   "scripts": {

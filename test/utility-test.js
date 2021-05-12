@@ -102,7 +102,6 @@ describe('Utility function tests', () => {
   })
 
   describe('validateCard', () => {
-
     const getValidCardData = () => {
       return {
         objects: [{
@@ -233,7 +232,6 @@ describe('Utility function tests', () => {
       delete cardData.objects[0].banner.items[0].href
       expect(index.validateCard(cardData).valid).to.eql(false)
     })
-
   })
 
   describe('validateBotDiscovery', () => {

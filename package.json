@@ -1,6 +1,6 @@
 {
   "name": "@vmw/mobile-flows-connector-commons",
-  "version": "1.4.6",
+  "version": "1.4.7",
   "description": "Commonly used functionalities by Mobile Flows connectors",
   "main": "index.js",
   "scripts": {
@@ -19,22 +19,22 @@
   "license": "BSD-2-Clause",
   "dependencies": {
     "ajv": "^8.6.2",
-    "ajv-formats": "^2.1.0",
+    "ajv-formats": "^2.1.1",
     "jsonwebtoken": "^8.5.1",
     "node-fetch": "^2.6.1",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
     "chai": "^4.3.4",
-    "eslint": "^7.31.0",
+    "eslint": "^7.32.0",
     "eslint-config-standard": "^16.0.3",
-    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-import": "^2.24.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-standard": "^4.1.0",
     "express": "^4.17.1",
     "mocha": "^9.0.3",
-    "sinon": "^11.1.1",
+    "sinon": "^11.1.2",
     "sinon-chai": "^3.7.0"
   }
 }
